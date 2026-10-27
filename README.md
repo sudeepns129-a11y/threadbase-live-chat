@@ -1,4 +1,4 @@
-# Threadbase - Live Chat with Socket.io (Starter)
+# Threadbase - Live Chat with Socket.io
 
 Add a real-time chat feature to Threadbase using Socket.io: wrap the HTTP server,
 authenticate sockets with JWT, use a room to scope the thread's messages, and wire a
@@ -15,19 +15,16 @@ cd server && cp .env.example .env && npm install && npm start
 cd client && cp .env.development.example .env.development && npm install && npm run dev
 ```
 
-`socket.io` and `socket.io-client` are **not** installed yet - installing them is Task 1.
+The Socket.io server and client dependencies are included in their respective package
+manifests. Copy the example environment files before starting either application.
 
-## What you will do
+## What is implemented
 
-1. `npm install socket.io` (server) and `npm install socket.io-client` (client).
-2. In `server/server.js`: wrap the app with `createServer`, attach Socket.io with CORS,
-   add `io.use` JWT auth, add `room:join` and `chat:message` handlers, and switch
-   `app.listen` to `httpServer.listen`.
-3. In `client/src/hooks/useSocket.js`: create the socket with `auth: { token }`, join the
-   room, listen for `chat:message`, and clean up with `socket.off()` + `socket.disconnect()`.
-
-`client/src/components/ChatRoom.jsx` is already wired to `useSocket` - once the hook works,
-the UI works.
+- The existing Express login and protected API continue to use JWT authentication.
+- Socket.io authenticates each connection from its handshake token.
+- Authenticated clients join rooms and exchange validated messages only within those rooms.
+- The React `useSocket` hook connects with the current JWT and cleans up its listener and
+  connection when the room or authentication changes.
 
 ## Testing your work
 
@@ -35,7 +32,5 @@ the UI works.
 - Type in one window and press Send. The message should appear in **both** windows in well under a second.
 - Log in credentials: `ada@threadbase.dev` / `password` and `linus@threadbase.dev` / `password`.
 
-## What is already done
-
-- The Express server with `/auth/login` (issues a JWT) and an HTTP `verifyToken` route.
-- The React app: login page, auth context (holds the `token`), and `ChatRoom.jsx`.
+The existing login page, auth context, `/auth/login` endpoint, and `/api/me` route remain
+in place.
